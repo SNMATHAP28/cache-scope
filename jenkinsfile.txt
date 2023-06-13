@@ -1,23 +1,27 @@
-pipeline{
- agent any
- environment {
-    ANYPOINT = credentials('ANYPOINT')
- }
- stages {
- 	stage ('Build'){
- 		steps {
- 			withMaven(maven:'maven'){
- 				sh 'mvn -f mule-jenkins-pipeline/pom.xml clean install'
- 			}
- 		}
- 	}
- 	stage ('Deploy'){
- 		steps {
- 			withMaven(maven:'maven'){
- 				sh 'mvn -f mule-jenkins-pipeline/pom.xml package deploy  -Dusername=smathapati2898 -Dpassword=Sneha@2898 -Denvironment=Sandbox -DmuleDeploy'
- 			}
- 		}
- 	}
- }
+pipeline {
+   agent any
+stages{
+stage('Build'){
+steps{
+   // Get some code from a GitHub repository
+git 'https://github.com/SNMATHAP28/cache-scope.git'
+// To run Maven on a Windows agent, use
+ bat "mvn -Dmaven.test.failure.ignore=true clean package"}}
 
+stage('Test'){
+steps{
+   // Get some code from a GitHub repository
+git 'https://github.com/SNMATHAP28/cache-scope.git'
+// To run Maven on a Windows agent, use
+ bat "mvn -Dmaven.test.failure.ignore=true clean test"}}
+
+stage('Deploy'){
+steps{
+   // Get some code from a GitHub repository
+git 'https://github.com/SNMATHAP28/cache-scope.git'
+// To run Maven on a Windows agent, use
+ bat "mvn -Dmaven.test.failure.ignore=true clean deploy -DmuleDeploy"
+//bat "mvn clean package deploy -DmuleDeploy"}}
+
+}
 }
